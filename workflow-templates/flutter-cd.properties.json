@@ -1,0 +1,6 @@
+{
+    "name": "Flutter CD",
+    "description": "Flutter CD pipeline that builds flutter application for multiple platforms.",
+    "categories": ["Flutter"],
+    "filePatterns": ["**/pubspec.yaml"]
+  }
