@@ -1,0 +1,11 @@
+{
+  "name": "Java CI/CD Pipeline",
+  "description": "Reusable template for building, testing, packaging, and pushing Java apps with Docker to GHCR.",
+  "iconName": "java",
+  "categories": ["Java", "CI", "CD"],
+  "filePatterns": [
+    "pom.xml$",
+    "^Dockerfile$",
+    ".*\\.java$"
+  ]
+}
