@@ -80,11 +80,11 @@ jobs:
         run: mvn deploy -DskipTests --settings ~/.m2/settings.xml
 
       - name: Log in to GHCR
-        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
+        run: echo "${GHCR_TOKEN}" | docker login ghcr.io -u ${GHCR_USERNAME} --password-stdin
 
       - name: Build Docker image
         run: |
-         docker build -t ghcr.io/$GITHUB_REPOSITORY/java-app:${{ github.sha }} .
+         docker build -t ghcr.io/${{ github.repository }}/java-app:${{ github.sha }} .
 
       - name: Push Docker image to GHCR
-        run: docker push ghcr.io/$GITHUB_REPOSITORY/java-app:${{ github.sha }}
+        run: docker push ghcr.io/${{ github.repository }}/java-app:${{ github.sha }}
