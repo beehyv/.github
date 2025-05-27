@@ -1,0 +1,14 @@
+{
+    "name": "Python CI/CD Pipeline with SonarQube and Docker",
+    "description": "Reusable GitHub Actions template for testing Python apps with Poetry, analyzing with SonarQube, and building/pushing Docker images.",
+    "iconName": "python",
+    "categories": ["Python", "SonarQube", "Docker"],
+    "filePatterns": [
+      "pyproject.toml$",
+      "poetry.lock$",
+      "^backend\\.dockerfile$",
+      ".*\\.py$",
+      "^sonar-project\\.properties$",
+      "^\\.github/workflows/.*\\.ya?ml$"
+    ]
+  }
