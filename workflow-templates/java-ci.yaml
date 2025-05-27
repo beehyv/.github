@@ -13,6 +13,8 @@ jobs:
     env:
       GHCR_USERNAME: ${{ secrets.GHCR_USERNAME }}
       GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+      IMAGE_NAME: java-app   # docker image name for your pipeline
+      ARTIFACT_NAME: java-app  # artifact name for uploading the artifacts
 
     steps:
       - name: Checkout code
@@ -41,14 +43,15 @@ jobs:
       - name: Build with Maven
         run: mvn clean install -DskipTests
 
-      # - name: Run Unit Tests
-      #   run: mvn test        
+      - name: Run Unit Tests
+        run: mvn test        
           
-      # - name: Sonarqube analysis
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      #   run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=java-starter -Dsonar.projectName='java-starter'
+      - name: Sonarqube analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=java-starter -Dsonar.projectName='java-starter'
+# replace 'java-starter' in -Dsonar.projectKey=java-starter and -Dsonar.projectName='java-starter' with actual project name created in sonarqube
 
       - name: Package Artifact
         run: mvn package -DskipTests
@@ -56,7 +59,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: java-app
+          name: ${ARTIFACT_NAME}
           path: target/*.war
           
       - name: Create Maven settings.xml
@@ -84,7 +87,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-         docker build -t ghcr.io/${{ github.repository }}/java-app:${{ github.sha }} .
+         docker build -t ghcr.io/${{ github.repository }}/${IMAGE_NAME}:${{ github.sha }} .
 
       - name: Push Docker image to GHCR
-        run: docker push ghcr.io/${{ github.repository }}/java-app:${{ github.sha }}
+        run: docker push ghcr.io/${{ github.repository }}/${IMAGE_NAME}:${{ github.sha }}
